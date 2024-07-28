@@ -4,7 +4,7 @@ import * as db from "./src/config/db/initialData.js";
 
 const app = express();
 const env = process.env;
-const PORT = env.PORT || 8082;
+const PORT = env.PORT || 8080;
 
 // mock date on db
 db.initDate();
