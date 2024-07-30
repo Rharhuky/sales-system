@@ -1,6 +1,6 @@
 import UserRepository from "../repository/UserRepository.js";
 import * as httpStatus from "../../../config/constants/httpStatus.js"
-
+import UserException from "../exception/UserException.js";
 class UserService {
 
     async findByEmail(req) {
@@ -8,7 +8,8 @@ class UserService {
         try {
             const { email } = req.params;
             this.validateRequest(email);
-            let theUser = UserRepository.findByEmail(email)
+            let theUser = await UserRepository.findByEmail(email);
+            this.validateUserNotFound(theUser);
 
             if (!this.userExists(theUser)) {
                 throw new Error('User not found');
@@ -32,8 +33,15 @@ class UserService {
 
     validateRequest(email) {
         if (!email) {
-            throw new Error('Email not informed !');
+            throw new UserException(httpStatus.BAD_REQUEST("Email not informed !"));
         }
+    }
+
+    validateUserNotFound(user) {
+        if (!user) {
+            throw new Error(httpStatus.BAD_REQUEST, "User not found.")
+        }
+
     }
 
     userExists(user) {
