@@ -15,13 +15,11 @@ export default async (req, res, next) => {
     try {
         const { authorization } = req.headers;
         if (thereIsNotAuthorizationHeader(authorization)) {
-            console.log("nooooooooo");
             throw new AuthException(httpStatus.UNAUTHORIZED, "Access Token was not sent!");
         }
 
         let accessToken = authorization;
         if (accessToken.includes(bearer)) {
-            console.log("--------------");
             accessToken = accessToken.replace(bearer, "");
         } else {
             accessToken = authorization;
