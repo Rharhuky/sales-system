@@ -14,11 +14,11 @@ import java.util.Map;
 public class StatusController {
 
     @GetMapping(value = "/status")
-    public ResponseEntity<Map<String, String>> status(){
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> status(){
+        Map<String, Object> response = new HashMap<>();
         response.put("service", "product api");
         response.put("status", "up");
-        response.put("httpStatus", HttpStatus.OK.toString());
+        response.put("httpStatus", HttpStatus.OK);
         return ResponseEntity.ok(response);
     }
 
