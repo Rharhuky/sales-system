@@ -12,10 +12,14 @@ class UserService {
 
         try {
             const { email } = req.params;
+            const { authUser } = req;
             this.validateRequest(email);
+
+            console.log(email, authUser);
+
             let theUser = await UserRepository.findByEmail(email);
             this.validateUserNotFound(theUser);
-
+            this.validateAuthenticatedUser(theUser, authUser);
             return {
                 status: httpStatus.SUCCESS,
                 user: {
@@ -26,9 +30,10 @@ class UserService {
             }
 
         } catch (err) {
+            console.log(err)
             return {
                 status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
-                message: err.status,
+                message: err.message,
             };
         }
     }
@@ -75,6 +80,14 @@ class UserService {
     validateAccessTokenData(email, password) {
         if (!email || !password) {
             throw new UserException(httpStatus.UNAUTHORIZED, "Error with email or passoword :/");
+        }
+    }
+
+    validateAuthenticatedUser(user, authUser) {
+        if (!authUser || user.id !== authUser.id) {
+        console.log('---------------');
+
+            throw new UserException(httpStatus.FORBIDDEN, 'You havent access to this resource')
         }
     }
 

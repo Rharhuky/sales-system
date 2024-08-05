@@ -13,6 +13,13 @@ export async function initDate() {
             email: 'user@mail.com.test',
             password: testPassword
         });
+
+        await User.create({
+            name: 'admin',
+            email: 'admin@mail.com',
+            password: 'admin123'
+        });
+
     } catch (err) {
         console.log(err)
     }

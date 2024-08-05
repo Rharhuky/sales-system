@@ -15,7 +15,7 @@ class UserRepository {
 
     async findByEmail(email) {
         try {
-            console.info(`Obtaisns user with email: ${email}`)
+            console.info(`Obtains user with email: ${email}`)
             return await User.findOne({ where: { email } })
         } catch (err) {
             console.error(err.message);
